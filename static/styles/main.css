@@ -1,0 +1,33 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  height: inherit;
+  width: inherit;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+
+  cursor: none;
+}
+
+#turn {
+    /*
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0px;
+    left:0px;
+    background-color:white;
+    background-image:url('../assets/ui/rotate.jpg');
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center center;
+    display:none;
+    */
+}
