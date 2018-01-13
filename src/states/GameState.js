@@ -15,9 +15,12 @@ class GameState extends Phaser.State {
       this.right = this.game.add.sprite(500, 34, "hand-right");
       this.left = this.game.add.sprite(212, 331, "hand-left");
 
+      // create the UI
+      this.buttons = this.right.addChild(this.game.make.sprite(79, 494, "buttons"));
+
       // adjust the anchor point of the left hand to
       // match the fingertip, so we can stick to the mouse
-      this.left.anchor.set(0.68, 0.05);
+      this.left.anchor.set(0.68, 0.01);
     }
 
     update() {

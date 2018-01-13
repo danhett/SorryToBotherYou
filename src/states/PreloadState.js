@@ -62,6 +62,8 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('game-background', 'assets/bg.jpg');
 		this.game.load.image('hand-left', 'assets/hand-left.png');
 		this.game.load.image('hand-right', 'assets/hand-right.png');
+		this.game.load.image('buttons', 'assets/buttons.png');
+
 	}
 
   loadUpdate() {
