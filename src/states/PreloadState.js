@@ -62,13 +62,19 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('game-background', 'assets/bg.jpg');
 		this.game.load.image('hand-left', 'assets/hand-left.png');
 		this.game.load.image('hand-right', 'assets/hand-right.png');
+
+		this.game.load.image('highlight', 'assets/highlight.png');
 		this.game.load.image('buttons', 'assets/buttons.png');
+		this.game.load.image('1-on', 'assets/1-on.png');
+		this.game.load.image('2-on', 'assets/2-on.png');
+		this.game.load.image('3-on', 'assets/3-on.png');
+		this.game.load.image('4-on', 'assets/4-on.png');
+
 
 	}
 
   loadUpdate() {
 		//this.loaderFill.scale.x = this.game.load.progress / 100;
-		console.log("loading...");
   }
 
 	// Loading complete! Go to the menu.
