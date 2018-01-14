@@ -33,9 +33,6 @@ class GameState extends Phaser.State {
     }
 
     enableUI() {
-      // make the first button active
-      //this.setState(1);
-
       this.button1.inputEnabled = true;
       this.button1.name = "email";
       this.button1.events.onInputDown.add(this.setState, this);
@@ -55,6 +52,13 @@ class GameState extends Phaser.State {
       this.button4.name = "whatsapp";
       this.button4.events.onInputDown.add(this.setState, this);
       this.button4.events.onInputUp.add(this.resetHand, this);
+
+      // make the first button active
+      this.button1.alpha = 1;
+      this.button2.alpha = 0;
+      this.button3.alpha = 0;
+      this.button4.alpha = 0;
+      this.highlight.tint = 0xc4afbb;
     }
 
     setState(state) {
