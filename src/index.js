@@ -8,8 +8,6 @@ import Settings from 'core/Settings';
 class Game extends Phaser.Game {
 
 	constructor() {
-		document.body.style.cursor = 'none'; // doesn't work in chrome?
-
 		super(1280, 720, Phaser.AUTO, '');
 
 		this.state.add('PreloadState', PreloadState, false);

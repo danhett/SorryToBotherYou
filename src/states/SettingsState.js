@@ -3,6 +3,8 @@ import Settings from 'core/Settings';
 class SettingsState extends Phaser.State {
 
 	create() {
+		document.body.style.cursor = 'default';
+
 		this.bg = this.add.sprite(0, 0, "settings-bg");
 		this.back = this.add.sprite(680, 0, "back-button");
 		this.back.alpha = 0;

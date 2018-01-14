@@ -3,6 +3,8 @@ import Settings from 'core/Settings';
 class MenuState extends Phaser.State {
 
     create() {
+      document.body.style.cursor = 'default';
+
       this.bg = this.game.add.sprite(0, 0, "game-background");
 
       this.menuTitle = this.game.add.sprite(267, 62, "menu-title");

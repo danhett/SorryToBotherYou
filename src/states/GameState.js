@@ -4,6 +4,8 @@ import Maths from 'core/Maths';
 class GameState extends Phaser.State {
 
     create() {
+      document.body.style.cursor = 'none';
+
       this.bg = this.game.add.sprite(0, 0, "game-background");
 
       this.xtarget = this.game.input.x;

@@ -2,6 +2,8 @@ import Settings from 'core/Settings';
 class PreloadState extends Phaser.State {
 
 	init() {
+		document.body.style.cursor = 'default';
+
 		console.log("preloader");
 
 		this.handleScaling();
