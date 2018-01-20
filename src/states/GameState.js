@@ -15,7 +15,7 @@ class GameState extends Phaser.State {
 
       // create the hands
       this.right = this.game.add.sprite(500, 34, "hand-right");
-      this.left = this.game.add.sprite(212, 331, "hand-left");
+      this.left = this.game.add.sprite(300, 200, "hand-left");
 
       // create the UI
       this.highlight = this.right.addChild(this.game.make.sprite(0, 0, "highlight"));
@@ -29,7 +29,16 @@ class GameState extends Phaser.State {
       // match the fingertip, so we can stick to the mouse
       this.left.anchor.set(0.68, 0.01);
 
+      this.animateIn();
+
       this.enableUI();
+    }
+
+    animateIn() {
+      this.canTrackHand = false;
+
+      this.game.add.tween(this.left).from( { alpha: 0 }, 500, Phaser.Easing.Cubic.Out, true, 1500);
+      this.game.add.tween(this.right).from( { x: 1300, y:200 }, 1000, Phaser.Easing.Cubic.Out, true, 500);
     }
 
     enableUI() {
