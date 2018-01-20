@@ -12,6 +12,9 @@ class GameState extends Phaser.State {
       this.ytarget = this.game.input.y;
       this.xdiff;
       this.ydiff;
+      this.pageOffset = 330;
+      this.sliderOriginX = 576;
+      this.sliderOriginY = 100;
 
       // create the hands
       this.right = this.game.add.sprite(500, 34, "hand-right");
@@ -32,6 +35,8 @@ class GameState extends Phaser.State {
       this.animateIn();
 
       this.enableUI();
+
+      this.createSliders();
     }
 
     animateIn() {
@@ -81,22 +86,46 @@ class GameState extends Phaser.State {
       if(state.name == "email") {
         this.button1.alpha = 1;
         this.tweenTint(this.highlight, this.highlight.tint, 0xc4afbb, 500);
+
+        this.game.add.tween(this.slider).to( { x: this.sliderOriginX }, 500, Phaser.Easing.Cubic.Out, true);
       }
 
       if(state.name == "facebook") {
         this.button2.alpha = 1;
         this.tweenTint(this.highlight, this.highlight.tint, 0xffac71, 500);
+
+        this.game.add.tween(this.slider).to( { x: this.sliderOriginX - this.pageOffset }, 500, Phaser.Easing.Cubic.Out, true);
       }
 
       if(state.name == "twitter") {
         this.button3.alpha = 1;
         this.tweenTint(this.highlight, this.highlight.tint, 0xc4d8bb, 500);
+
+        this.game.add.tween(this.slider).to( { x: this.sliderOriginX - (this.pageOffset*2) }, 500, Phaser.Easing.Cubic.Out, true);
       }
 
       if(state.name == "whatsapp") {
         this.button4.alpha = 1;
         this.tweenTint(this.highlight, this.highlight.tint, 0xffacc8, 500);
+
+        this.game.add.tween(this.slider).to( { x: this.sliderOriginX - (this.pageOffset*3) }, 500, Phaser.Easing.Cubic.Out, true);
       }
+    }
+
+    createSliders() {
+      this.slider = this.game.add.sprite(this.sliderOriginX, this.sliderOriginY);
+
+      this.page1 = this.slider.addChild(this.game.make.sprite(0,0));
+      this.page1.addChild(this.game.make.sprite(0, 0, 'bubble1'));
+
+      this.page2 = this.slider.addChild(this.game.make.sprite(0,0));
+      this.page2.addChild(this.game.make.sprite(this.pageOffset, 0, 'bubble2'));
+
+      this.page3 = this.slider.addChild(this.game.make.sprite(0,0));
+      this.page3.addChild(this.game.make.sprite(this.pageOffset * 2, 0, 'bubble3'));
+
+      this.page4 = this.slider.addChild(this.game.make.sprite(0,0));
+      this.page4.addChild(this.game.make.sprite(this.pageOffset * 3, 0, 'bubble4'));
     }
 
     tweenTint(obj, startColor, endColor, time) {
