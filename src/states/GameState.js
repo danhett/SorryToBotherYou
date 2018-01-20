@@ -126,6 +126,12 @@ class GameState extends Phaser.State {
 
       this.page4 = this.slider.addChild(this.game.make.sprite(0,0));
       this.page4.addChild(this.game.make.sprite(this.pageOffset * 3, 0, 'bubble4'));
+
+      // Create the mask for the sliders
+      this.masker = this.game.add.graphics(574, 59);
+      this.masker.beginFill(0x00FFFF);
+      this.masker.drawRect(0, 0, 297, 548);
+      this.slider.mask = this.masker;
     }
 
     tweenTint(obj, startColor, endColor, time) {
