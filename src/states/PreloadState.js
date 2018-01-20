@@ -68,7 +68,8 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('menu-about', 'assets/menu-about.png');
 		this.game.load.image('menu-start', 'assets/menu-start.png');
 		this.game.load.image('menu-subtitle', 'assets/menu-subtitle.png');
-		this.game.load.image('menu-title', 'assets/menu-title.png');
+		this.game.load.image('menu-title1', 'assets/menu-title1.png');
+		this.game.load.image('menu-title2', 'assets/menu-title2.png');
 
 		this.game.load.image('hand-left', 'assets/hand-left.png');
 		this.game.load.image('hand-right', 'assets/hand-right.png');

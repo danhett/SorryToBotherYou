@@ -8,7 +8,7 @@ import Settings from 'core/Settings';
 class Game extends Phaser.Game {
 
 	constructor() {
-		super(1280, 720, Phaser.AUTO, '');
+		super(1280, 720, Phaser.AUTO, '', null, true);
 
 		this.state.add('PreloadState', PreloadState, false);
 		this.state.add('MenuState', MenuState, false);
