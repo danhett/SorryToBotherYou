@@ -18,6 +18,8 @@ class PreloadState extends Phaser.State {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		this.scale.pageAlignHorizontally = true;
 		this.scale.pageAlignVertically = true;
+
+		this.scale.setMinMax(512, 288, 1280, 720);
 	}
 
 	handleIncorrect() {

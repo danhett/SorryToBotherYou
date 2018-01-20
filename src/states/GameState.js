@@ -71,24 +71,45 @@ class GameState extends Phaser.State {
 
       if(state.name == "email") {
         this.button1.alpha = 1;
-        this.highlight.tint = 0xc4afbb;
+        this.tweenTint(this.highlight, this.highlight.tint, 0xc4afbb, 500);
       }
 
       if(state.name == "facebook") {
         this.button2.alpha = 1;
-        this.highlight.tint = 0xffac71;
+        this.tweenTint(this.highlight, this.highlight.tint, 0xffac71, 500);
       }
 
       if(state.name == "twitter") {
         this.button3.alpha = 1;
-        this.highlight.tint = 0xc4d8bb;
+        this.tweenTint(this.highlight, this.highlight.tint, 0xc4d8bb, 500);
       }
 
       if(state.name == "whatsapp") {
         this.button4.alpha = 1;
-        this.highlight.tint = 0xffacc8;
+        this.tweenTint(this.highlight, this.highlight.tint, 0xffacc8, 500);
       }
     }
+
+    tweenTint(obj, startColor, endColor, time) {
+      // create an object to tween with our step value at 0
+      var colorBlend = {step: 0};
+
+      // create the tween on this object and tween its step property to 100
+      var colorTween = this.game.add.tween(colorBlend).to({step: 100}, time);
+
+      // run the interpolateColor function every time the tween updates, feeding it the
+      // updated value of our tween each time, and set the result as our tint
+      colorTween.onUpdateCallback(function() {
+        obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);
+      });
+
+      // set the object to the start color straight away
+      obj.tint = startColor;
+
+      // start the tween
+      colorTween.start();
+    }
+
 
     resetHand() {
       this.left.scale.set(1);
