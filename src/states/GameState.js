@@ -19,14 +19,6 @@ class GameState extends Phaser.State {
       // create the phone holder hand
       this.right = this.game.add.sprite(500, 34, "hand-right");
 
-      // create the UI
-      this.highlight = this.right.addChild(this.game.make.sprite(0, 0, "highlight"));
-      this.buttons = this.right.addChild(this.game.make.sprite(79, 494, "buttons"));
-      this.button1 = this.right.addChild(this.game.make.sprite(79, 493, "1-on"));
-      this.button2 = this.right.addChild(this.game.make.sprite(150, 493, "2-on"));
-      this.button3 = this.right.addChild(this.game.make.sprite(223, 493, "3-on"));
-      this.button4 = this.right.addChild(this.game.make.sprite(294, 493, "4-on"));
-
       this.enableUI();
 
       this.createSliders();
@@ -41,33 +33,29 @@ class GameState extends Phaser.State {
       this.animateIn();
     }
 
+    /**
+     * Build the page in.
+     */
     animateIn() {
-      this.canTrackHand = false;
-
       this.game.add.tween(this.left).from( { alpha: 0 }, 500, Phaser.Easing.Cubic.Out, true, 1500);
       this.game.add.tween(this.right).from( { x: 1300, y:200 }, 1000, Phaser.Easing.Cubic.Out, true, 500);
     }
 
+    /**
+     * Create the phone interface visual elements
+     */
     enableUI() {
-      this.button1.inputEnabled = true;
-      this.button1.name = "email";
-      this.button1.events.onInputDown.add(this.setState, this);
-      this.button1.events.onInputUp.add(this.resetHand, this);
+      this.highlight = this.right.addChild(this.game.make.sprite(0, 0, "highlight"));
+      this.buttons = this.right.addChild(this.game.make.sprite(79, 494, "buttons"));
+      this.button1 = this.right.addChild(this.game.make.sprite(79, 493, "1-on"));
+      this.button2 = this.right.addChild(this.game.make.sprite(150, 493, "2-on"));
+      this.button3 = this.right.addChild(this.game.make.sprite(223, 493, "3-on"));
+      this.button4 = this.right.addChild(this.game.make.sprite(294, 493, "4-on"));
 
-      this.button2.inputEnabled = true;
-      this.button2.name = "facebook";
-      this.button2.events.onInputDown.add(this.setState, this);
-      this.button2.events.onInputUp.add(this.resetHand, this);
-
-      this.button3.inputEnabled = true;
-      this.button3.name = "twitter";
-      this.button3.events.onInputDown.add(this.setState, this);
-      this.button3.events.onInputUp.add(this.resetHand, this);
-
-      this.button4.inputEnabled = true;
-      this.button4.name = "whatsapp";
-      this.button4.events.onInputDown.add(this.setState, this);
-      this.button4.events.onInputUp.add(this.resetHand, this);
+      this.makeClickableButton(this.button1, "email");
+      this.makeClickableButton(this.button2, "facebook");
+      this.makeClickableButton(this.button3, "twitter");
+      this.makeClickableButton(this.button4, "whatsapp");
 
       // make the first button active
       this.button1.alpha = 1;
@@ -77,43 +65,16 @@ class GameState extends Phaser.State {
       this.highlight.tint = 0xc4afbb;
     }
 
-    setState(state) {
-      this.button1.alpha = 0;
-      this.button2.alpha = 0;
-      this.button3.alpha = 0;
-      this.button4.alpha = 0;
-
-      this.left.scale.set(0.9);
-
-      if(state.name == "email") {
-        this.button1.alpha = 1;
-        this.tweenTint(this.highlight, this.highlight.tint, 0xc4afbb, 500);
-
-        this.game.add.tween(this.slider).to( { x: this.sliderOriginX }, 500, Phaser.Easing.Cubic.Out, true);
-      }
-
-      if(state.name == "facebook") {
-        this.button2.alpha = 1;
-        this.tweenTint(this.highlight, this.highlight.tint, 0xffac71, 500);
-
-        this.game.add.tween(this.slider).to( { x: this.sliderOriginX - this.pageOffset }, 500, Phaser.Easing.Cubic.Out, true);
-      }
-
-      if(state.name == "twitter") {
-        this.button3.alpha = 1;
-        this.tweenTint(this.highlight, this.highlight.tint, 0xc4d8bb, 500);
-
-        this.game.add.tween(this.slider).to( { x: this.sliderOriginX - (this.pageOffset*2) }, 500, Phaser.Easing.Cubic.Out, true);
-      }
-
-      if(state.name == "whatsapp") {
-        this.button4.alpha = 1;
-        this.tweenTint(this.highlight, this.highlight.tint, 0xffacc8, 500);
-
-        this.game.add.tween(this.slider).to( { x: this.sliderOriginX - (this.pageOffset*3) }, 500, Phaser.Easing.Cubic.Out, true);
-      }
+    makeClickableButton(target, buttonName) {
+      target.inputEnabled = true;
+      target.name = buttonName;
+      target.events.onInputDown.add(this.switchToScreen, this);
+      target.events.onInputUp.add(this.resetHand, this);
     }
 
+    /**
+     * Creates the holder structure for the sliding screen and messages.
+     */
     createSliders() {
       this.slider = this.game.add.sprite(this.sliderOriginX, this.sliderOriginY);
 
@@ -129,11 +90,54 @@ class GameState extends Phaser.State {
       this.page4 = this.slider.addChild(this.game.make.sprite(0,0));
       this.page4.addChild(this.game.make.sprite(this.pageOffset * 3, 0, 'bubble4'));
 
-      // Create the mask for the sliders
+      // Create the mask for the slider
       this.masker = this.game.add.graphics(574, 59);
       this.masker.beginFill(0x00FFFF);
       this.masker.drawRect(0, 0, 297, 548);
       this.slider.mask = this.masker;
+    }
+
+    /**
+     * Switches to a particular screen when hitting a phone button.
+     */
+    switchToScreen(state) {
+      // reset all the buttons
+      this.button1.alpha = 0;
+      this.button2.alpha = 0;
+      this.button3.alpha = 0;
+      this.button4.alpha = 0;
+
+      // makes the hand look like it's pressing down.
+      this.left.scale.set(0.9);
+
+      // do the switch
+      if(state.name == "email") {
+        this.button1.alpha = 1;
+        this.doStateTransition(0xc4afbb, this.sliderOriginX);
+      }
+
+      if(state.name == "facebook") {
+        this.button2.alpha = 1;
+        this.doStateTransition(0xffac71, this.sliderOriginX - this.pageOffset);
+      }
+
+      if(state.name == "twitter") {
+        this.button3.alpha = 1;
+        this.doStateTransition(0xc4d8bb, this.sliderOriginX - (this.pageOffset*2));
+      }
+
+      if(state.name == "whatsapp") {
+        this.button4.alpha = 1;
+        this.doStateTransition(0xffacc8, this.sliderOriginX - (this.pageOffset*3));
+      }
+    }
+
+    /**
+     * Changes the tint background, and slides to the correct position.
+     */
+    doStateTransition(newTint, pos) {
+      this.tweenTint(this.highlight, this.highlight.tint, newTint, 500);
+      this.game.add.tween(this.slider).to( { x: pos }, 500, Phaser.Easing.Cubic.Out, true);
     }
 
     tweenTint(obj, startColor, endColor, time) {
@@ -148,14 +152,23 @@ class GameState extends Phaser.State {
       colorTween.start();
     }
 
+    /**
+     * Restores the hand scale after it's touched the screen
+     */
     resetHand() {
       this.left.scale.set(1);
     }
 
+    /**
+     * Tick!
+     */
     update() {
       this.moveHand();
     }
 
+    /**
+     * Sticks the hand to the cursor, with a little easing and rotation.
+     */
     moveHand() {
       // rotate the hand slightly based on the position
       this.left.angle = this.game.input.x / 40;
@@ -166,10 +179,6 @@ class GameState extends Phaser.State {
 
       this.ydiff = this.game.input.y - this.left.position.y;
       this.left.position.y += this.ydiff *= 0.2;
-    }
-
-    shutdown() {
-
     }
 }
 
