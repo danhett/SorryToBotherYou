@@ -16,9 +16,8 @@ class GameState extends Phaser.State {
       this.sliderOriginX = 576;
       this.sliderOriginY = 100;
 
-      // create the hands
+      // create the phone holder hand
       this.right = this.game.add.sprite(500, 34, "hand-right");
-      this.left = this.game.add.sprite(300, 200, "hand-left");
 
       // create the UI
       this.highlight = this.right.addChild(this.game.make.sprite(0, 0, "highlight"));
@@ -28,15 +27,18 @@ class GameState extends Phaser.State {
       this.button3 = this.right.addChild(this.game.make.sprite(223, 493, "3-on"));
       this.button4 = this.right.addChild(this.game.make.sprite(294, 493, "4-on"));
 
-      // adjust the anchor point of the left hand to
+      this.enableUI();
+
+      this.createSliders();
+
+      // finally add the left hand on top of everything
+      this.left = this.game.add.sprite(300, 200, "hand-left");
+
+      // also adjust the anchor point of the left hand to
       // match the fingertip, so we can stick to the mouse
       this.left.anchor.set(0.68, 0.01);
 
       this.animateIn();
-
-      this.enableUI();
-
-      this.createSliders();
     }
 
     animateIn() {
