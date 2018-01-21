@@ -19,6 +19,8 @@ class GameState extends Phaser.State {
       // create the phone holder hand
       this.right = this.game.add.sprite(500, 34, "hand-right");
 
+      this.loadData();
+
       this.enableUI();
 
       this.createSliders();
@@ -31,6 +33,15 @@ class GameState extends Phaser.State {
       this.left.anchor.set(0.68, 0.01);
 
       this.animateIn();
+    }
+
+    loadData() {
+      var config = this.game.cache.getJSON('message-data');
+      this.normalMessages = config.normal;
+      this.journoMessages = config.journo;
+
+      console.log(this.normalMessages.length);
+      console.log(this.journoMessages.length);
     }
 
     /**

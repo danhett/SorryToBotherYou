@@ -1,20 +1,44 @@
 {
-  "normal" :
-  [
-    "I've just seen the pictures from today. You (in a suit!) just hammered home how much you and your family have lost. I hope you know that we’re still thinking of you.",
-    "Take care, XXXX x",
-    "sending (hugs)",
-    "Hello - I just wanted to send over sincere condolences - I’d only met your brother a small handful of times years ago but we’d followed each other on social since",
-    "Love and thoughts from here to you, the rest of the family and friends. X",
-    "I keep checking on your feed. It feels stalkerery. Wanted to say something, so sending positive vibes and stuff and big love to you and your family x x x",
-    "for some reason it didn’t click that you were Martyn’s brother. I am truly sorry for your loss.",
-    "I can only imagine how many thousands of messages you've had about how sorry people are. And of course I'm one of them.",
-    "Hi love. I imagine you're getting a metric fuckload of these messages at the moment, so don't feel any need to reply. I just want you to know that I'm hoping against hope that your brother is okay. Big love to you xxx",
-  ],
+	"normal": [
+		"I've just seen the pictures from today. ",
+		"Take care, XXXX x",
+		"sending (hugs)",
+		"Hello - I just wanted to send over sincere condolences",
+		"Love and thoughts from here to you, the rest of the family and friends. X",
+		"I keep checking on your feed. It feels stalkerery. ",
+		"for some reason it didn’t click that you were Martyn’s brother. I am truly sorry for your loss.",
+		"I can only imagine how many thousands of messages you've had about how sorry people are. ",
+		"This is a short message.",
+		"This is a another short message.",
+		"Hello this is a message.",
+		"Hooray it's a short message.",
+		"This is another sorta short message.",
+		"Yo, message.",
+		"Hey! Enjoy this message.",
+		"Message get!",
+		"Miaow miaow",
+		"omg msg!"
+	],
 
-  "journo" :
-  [
-    "this is a journalist",
-    "another journalist"
-  ]
+	"journo": [
+		"this is a journalist",
+		"another journalist",
+		"journo",
+		"hey this is a journlist message",
+		"yo I am a journalist",
+		"can I get an interview",
+		"sup this is a journo",
+		"hello I am making some television can I interview you",
+		"journo 123035634",
+		"this is a journo",
+		"hi can I ask you a few questions about this",
+		"would you like to appear on the television",
+		"hi another journo here",
+		"journo test message",
+		"hey this is a journo",
+		"yo yo journo",
+		"lol can u answer message pls from a journo",
+		"woo yay journo request",
+		"lalalala journo"
+	]
 }

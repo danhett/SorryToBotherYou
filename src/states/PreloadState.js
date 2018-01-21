@@ -63,6 +63,8 @@ class PreloadState extends Phaser.State {
 	 * Actually load the items in.
 	 */
 	preload() {
+		this.load.json('message-data', 'data/messages.json');
+
 		this.game.load.image('game-background', 'assets/bg.jpg');
 
 		this.game.load.image('menu-about', 'assets/menu-about.png');
