@@ -33,6 +33,8 @@ class GameState extends Phaser.State {
       this.left.anchor.set(0.68, 0.01);
 
       this.animateIn();
+
+      this.game.time.events.add(Phaser.Timer.SECOND * 2, this.beginGame, this);
     }
 
     loadData() {
@@ -90,16 +92,16 @@ class GameState extends Phaser.State {
       this.slider = this.game.add.sprite(this.sliderOriginX, this.sliderOriginY);
 
       this.page1 = this.slider.addChild(this.game.make.sprite(0,0));
-      this.page1.addChild(this.game.make.sprite(0, 0, 'bubble1'));
+      //this.page1.addChild(this.game.make.sprite(0, 0, 'bubble1'));
 
       this.page2 = this.slider.addChild(this.game.make.sprite(0,0));
-      this.page2.addChild(this.game.make.sprite(this.pageOffset, 0, 'bubble2'));
+      //this.page2.addChild(this.game.make.sprite(this.pageOffset, 0, 'bubble2'));
 
       this.page3 = this.slider.addChild(this.game.make.sprite(0,0));
-      this.page3.addChild(this.game.make.sprite(this.pageOffset * 2, 0, 'bubble3'));
+      //this.page3.addChild(this.game.make.sprite(this.pageOffset * 2, 0, 'bubble3'));
 
       this.page4 = this.slider.addChild(this.game.make.sprite(0,0));
-      this.page4.addChild(this.game.make.sprite(this.pageOffset * 3, 0, 'bubble4'));
+      //this.page4.addChild(this.game.make.sprite(this.pageOffset * 3, 0, 'bubble4'));
 
       // Create the mask for the slider
       this.masker = this.game.add.graphics(574, 59);
@@ -161,6 +163,17 @@ class GameState extends Phaser.State {
 
       obj.tint = startColor;
       colorTween.start();
+    }
+
+    beginGame() {
+      console.log("BEGIN");
+    }
+
+    /**
+     * Spawns a new message.
+     */
+    spawnMessage() {
+      this.page1.addChild(this.game.make.sprite(0, 0, 'bubble1'));
     }
 
     /**
