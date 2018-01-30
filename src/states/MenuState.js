@@ -49,12 +49,12 @@ class MenuState extends Phaser.State {
     }
 
     wiggleLogo() {
-      if(this.tick < 10) {
+      if(this.tick < 12) {
         this.tick++;
         this.menuTitle1.alpha = 1;
         this.menuTitle2.alpha = 0;
       }
-      else if(this.tick >= 10 && this.tick < 20) {
+      else if(this.tick >= 12 && this.tick < 24) {
         this.tick++;
         this.menuTitle1.alpha = 0;
         this.menuTitle2.alpha = 1;
