@@ -4,8 +4,6 @@ class PreloadState extends Phaser.State {
 	init() {
 		document.body.style.cursor = 'default';
 
-		console.log("preloader");
-
 		this.handleScaling();
 		this.checkSettings();
 		this.drawPreloader();
@@ -87,6 +85,9 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('bubble2', 'assets/bubble2.png');
 		this.game.load.image('bubble3', 'assets/bubble3.png');
 		this.game.load.image('bubble4', 'assets/bubble4.png');
+
+		this.game.load.image('btn-keep', 'assets/btn-keep.png');
+		this.game.load.image('btn-delete', 'assets/btn-delete.png');
 
 		this.game.load.image('masker', 'assets/mask.png');
 	}

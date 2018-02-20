@@ -47,9 +47,6 @@ class GameState extends Phaser.State {
       var config = this.game.cache.getJSON('message-data');
       this.normalMessages = config.normal;
       this.journoMessages = config.journo;
-
-      console.log(this.normalMessages.length);
-      console.log(this.journoMessages.length);
     }
 
     /**
@@ -173,10 +170,25 @@ class GameState extends Phaser.State {
      * Spawns a new message. Recursively calls itself.
      */
     spawnMessage() {
-      var msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
-      this.offset1 += msg.height;
+      this.createMessageBlock();
 
-      this.game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnMessage, this);
+      this.game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnMessage, this);
+    }
+
+    createMessageBlock() {
+      var msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
+
+      var keep = msg.addChild(this.game.make.sprite(0, 0, 'btn-keep'));
+      var kill = msg.addChild(this.game.make.sprite(40, 0, 'btn-delete'));
+
+      var style = { font: "14px Arial", fill: "#000000", align: "left", wordWrap:true, wordWrapWidth:240 };
+      var text = msg.addChild(this.game.add.text(20, 20, this.getNewMessageText(), style));
+
+      this.offset1 += msg.height;
+    }
+
+    getNewMessageText() {
+      return Phaser.ArrayUtils.getRandomItem(this.normalMessages);
     }
 
     /**
