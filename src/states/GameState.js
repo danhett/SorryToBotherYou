@@ -14,15 +14,21 @@ class GameState extends Phaser.State {
       this.ydiff;
       this.pageOffset = 330;
       this.sliderOriginX = 576;
-      this.sliderOriginY = 100;
+      this.sliderOriginY = 70;
 
-      // create the phone holder hand
-      this.right = this.game.add.sprite(500, 34, "hand-right");
+      this.offset1 = 0;
+      this.offset2 = 0;
+      this.offset3 = 0;
+      this.offset4 = 0;
 
       this.loadData();
 
+      // create the phone holder hand (before UI to avoid tangles)
+      this.right = this.game.add.sprite(500, 34, "hand-right");
+
       this.enableUI();
 
+      // create the content holders for messages to go into
       this.createSliders();
 
       // finally add the left hand on top of everything
@@ -32,8 +38,8 @@ class GameState extends Phaser.State {
       // match the fingertip, so we can stick to the mouse
       this.left.anchor.set(0.68, 0.01);
 
+      // build the page, and kick everything off
       this.animateIn();
-
       this.game.time.events.add(Phaser.Timer.SECOND * 2, this.beginGame, this);
     }
 
@@ -91,17 +97,11 @@ class GameState extends Phaser.State {
     createSliders() {
       this.slider = this.game.add.sprite(this.sliderOriginX, this.sliderOriginY);
 
+      // this is just a blank holder to contain each message stack.
       this.page1 = this.slider.addChild(this.game.make.sprite(0,0));
-      //this.page1.addChild(this.game.make.sprite(0, 0, 'bubble1'));
-
-      this.page2 = this.slider.addChild(this.game.make.sprite(0,0));
-      //this.page2.addChild(this.game.make.sprite(this.pageOffset, 0, 'bubble2'));
-
-      this.page3 = this.slider.addChild(this.game.make.sprite(0,0));
-      //this.page3.addChild(this.game.make.sprite(this.pageOffset * 2, 0, 'bubble3'));
-
-      this.page4 = this.slider.addChild(this.game.make.sprite(0,0));
-      //this.page4.addChild(this.game.make.sprite(this.pageOffset * 3, 0, 'bubble4'));
+      this.page2 = this.slider.addChild(this.game.make.sprite(this.pageOffset,0));
+      this.page3 = this.slider.addChild(this.game.make.sprite(this.pageOffset * 2,0));
+      this.page4 = this.slider.addChild(this.game.make.sprite(this.pageOffset * 3,0));
 
       // Create the mask for the slider
       this.masker = this.game.add.graphics(574, 59);
@@ -166,14 +166,17 @@ class GameState extends Phaser.State {
     }
 
     beginGame() {
-      console.log("BEGIN");
+      this.spawnMessage();
     }
 
     /**
-     * Spawns a new message.
+     * Spawns a new message. Recursively calls itself.
      */
     spawnMessage() {
-      this.page1.addChild(this.game.make.sprite(0, 0, 'bubble1'));
+      var msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
+      this.offset1 += msg.height;
+
+      this.game.time.events.add(Phaser.Timer.SECOND * 3, this.spawnMessage, this);
     }
 
     /**
