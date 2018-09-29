@@ -21,6 +21,12 @@ class GameState extends Phaser.State {
       this.offset3 = 0;
       this.offset4 = 0;
 
+      this.msg;
+      this.mode;
+      this.text;
+      this.page;
+      this.totalMessages = 0;
+
       this.loadData();
 
       // create the phone holder hand (before UI to avoid tangles)
@@ -177,45 +183,46 @@ class GameState extends Phaser.State {
 
     // TODO - don't make these vars every time, optimise obviously
     createMessageBlock() {
-      var msg;
-      var mode;
-      var text;
-      
-      //var page = this.getRandomInt(1,4); // LIVE
-      var page = 1; // TESTING, FORCE TO ONE PAGE
+      this.totalMessages++;
+
+      // force the first two messages onto the visible screen, then randomise
+      if(this.totalMessages > 2)
+        this.page = this.getRandomInt(1,4);
+      else
+        this.page = 1;
 
       if(Math.random() < 0.5) { // TODO: test this probability, should be low
-        mode = "friend";
+        this.mode = "friend";
       }
       else {
-        mode = "journo";
+        this.mode = "journo";
       }
       
-      if(page == 1) msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
-      if(page == 2) msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
-      if(page == 3) msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
-      if(page == 4) msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
+      if(this.page == 1) this.msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
+      if(this.page == 2) this.msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
+      if(this.page == 3) this.msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
+      if(this.page == 4) this.msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
 
-      this.game.add.tween(msg).from( { alpha:0 }, 200, "Linear", true);
+      this.game.add.tween(this.msg).from( { alpha:0 }, 200, "Linear", true);
 
-      msg.currentPage = page;
-      this.enableInteraction(msg);
+      this.msg.currentPage = this.page;
+      this.enableInteraction(this.msg);
 
       var style = { font: "14px Arial", fill: "#000000", align: "left", wordWrap:true, wordWrapWidth:240 };
       
-      if(mode == "friend") {
-        text = msg.addChild(this.game.add.text(20, 20, this.getFriendText(), style));
-        msg.currentType = mode;
+      if(this.mode == "friend") {
+        this.text = this.msg.addChild(this.game.add.text(20, 20, this.getFriendText(), style));
+        this.msg.currentType = this.mode;
       }
       else {
-        text = msg.addChild(this.game.add.text(20, 20, this.getJournoText(), style));
-        msg.currentType = mode;
+        this.text = this.msg.addChild(this.game.add.text(20, 20, this.getJournoText(), style));
+        this.msg.currentType = this.mode;
       }
 
-      if(page == 1) this.offset1 += msg.height;
-      if(page == 2) this.offset2 += msg.height;
-      if(page == 3) this.offset3 += msg.height;
-      if(page == 4) this.offset4 += msg.height;
+      if(this.page == 1) this.offset1 += this.msg.height;
+      if(this.page == 2) this.offset2 += this.msg.height;
+      if(this.page == 3) this.offset3 += this.msg.height;
+      if(this.page == 4) this.offset4 += this.msg.height;
     }
 
     // now the message exists, turn on the buttons
@@ -244,8 +251,24 @@ class GameState extends Phaser.State {
 
       if((msg.parent.currentType === "friend" && clicked === "accept") || 
          (msg.parent.currentType === "journo" && clicked === "delete")) {
-        this.offset1 -= msg.parent.height;
-        this.shuffleUp(this.page1.children, msg, this.game);
+        
+        if(msg.parent.currentPage == 1) {
+          this.offset1 -= msg.parent.height;
+          this.shuffleUp(this.page1.children, msg, this.game);
+        }
+        if(msg.parent.currentPage == 2) {
+          this.offset2 -= msg.parent.height;
+          this.shuffleUp(this.page2.children, msg, this.game);
+        }
+        if(msg.parent.currentPage == 3) {
+          this.offset3 -= msg.parent.height;
+          this.shuffleUp(this.page3.children, msg, this.game);
+        }
+        if(msg.parent.currentPage == 4) {
+          this.offset4 -= msg.parent.height;
+          this.shuffleUp(this.page4.children, msg, this.game);
+        }
+
         msg.parent.destroy();
       }
       else {
