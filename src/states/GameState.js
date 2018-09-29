@@ -172,36 +172,107 @@ class GameState extends Phaser.State {
     spawnMessage() {
       this.createMessageBlock();
 
-      this.game.time.events.add(Phaser.Timer.SECOND * 10, this.spawnMessage, this);
+      this.game.time.events.add(Phaser.Timer.SECOND * 5, this.spawnMessage, this);
     }
 
+    // TODO - don't make these vars every time, optimise obviously
     createMessageBlock() {
       var msg;
-      var page = this.getRandomInt(1,4);
+      var mode;
+      var text;
+      
+      //var page = this.getRandomInt(1,4); // LIVE
+      var page = 1; // TESTING, FORCE TO ONE PAGE
+
+      if(Math.random() < 0.5) {
+        mode = "friend";
+      }
+      else {
+        mode = "journo";
+      }
       
       if(page == 1) msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
       if(page == 2) msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
       if(page == 3) msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
       if(page == 4) msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
 
-      var keep = msg.addChild(this.game.make.sprite(0, 0, 'btn-keep'));
-      var kill = msg.addChild(this.game.make.sprite(40, 0, 'btn-delete'));
-
       var style = { font: "14px Arial", fill: "#000000", align: "left", wordWrap:true, wordWrapWidth:240 };
-      var text = msg.addChild(this.game.add.text(20, 20, this.getNewMessageText(), style));
+      
+      if(mode == "friend") {
+        text = msg.addChild(this.game.add.text(20, 20, this.getFriendText(), style));
+        msg.currentType = mode;
+      }
+      else {
+        text = msg.addChild(this.game.add.text(20, 20, this.getJournoText(), style));
+        msg.currenType = mode;
+      }
 
       if(page == 1) this.offset1 += msg.height;
       if(page == 2) this.offset2 += msg.height;
       if(page == 3) this.offset3 += msg.height;
       if(page == 4) this.offset4 += msg.height;
+
+      // add metadata to the message so we know the type and the page
+      msg.currentPage = 1;
+      msg.currentType = "friend"; // "friend"
+
+      this.enableInteraction(msg);
+    }
+
+    // now the message exists, turn on the buttons
+    enableInteraction(msg) {
+      var keep = msg.addChild(this.game.make.sprite(0, 0, 'btn-keep'));
+      var kill = msg.addChild(this.game.make.sprite(40, 0, 'btn-delete'));
+
+      keep.inputEnabled = true;
+      keep.events.onInputDown.add(this.acceptMessage, this);
+
+      kill.inputEnabled = true;
+      kill.events.onInputDown.add(this.killMessage, this);
+    }
+
+    acceptMessage(msg) {
+      if(msg.parent.currentType == "friend") {
+        this.offset1 -= msg.parent.height;
+        this.shuffleUp(this.page1.children, msg.parent.height, this.game);
+        msg.parent.destroy();
+      }
+      else {
+        this.triggerGameOver();
+      }
+    }
+
+    killMessage() {
+      if(msg.parent.currentType == "journo") {
+        // clone accept code when working
+      }
+    }
+
+    /**
+     * Move everything up when the message is deleted
+     */
+    shuffleUp(items, distance, game) {
+      items.forEach(function(item) {
+        game.add.tween(item).to( { y: item.y - distance }, 200, "Linear", true);
+      });
+    }
+
+    triggerGameOver() {
+      console.log("game over");
     }
 
     getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    getNewMessageText() {
+    /**
+     * GENERATE TEXT MESSAGES (friend + journo)
+     */
+    getFriendText() {
       return Phaser.ArrayUtils.getRandomItem(this.normalMessages);
+    }
+    getJournoText() {
+      return Phaser.ArrayUtils.getRandomItem(this.journoMessages);
     }
 
     /**
