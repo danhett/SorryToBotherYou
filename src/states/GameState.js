@@ -184,7 +184,7 @@ class GameState extends Phaser.State {
       //var page = this.getRandomInt(1,4); // LIVE
       var page = 1; // TESTING, FORCE TO ONE PAGE
 
-      if(Math.random() < 0.5) {
+      if(Math.random() < 0.5) { // TODO: test this probability, should be low
         mode = "friend";
       }
       else {
@@ -196,6 +196,11 @@ class GameState extends Phaser.State {
       if(page == 3) msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
       if(page == 4) msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
 
+      this.game.add.tween(msg).from( { alpha:0 }, 200, "Linear", true);
+
+      msg.currentPage = page;
+      this.enableInteraction(msg);
+
       var style = { font: "14px Arial", fill: "#000000", align: "left", wordWrap:true, wordWrapWidth:240 };
       
       if(mode == "friend") {
@@ -204,25 +209,19 @@ class GameState extends Phaser.State {
       }
       else {
         text = msg.addChild(this.game.add.text(20, 20, this.getJournoText(), style));
-        msg.currenType = mode;
+        msg.currentType = mode;
       }
 
       if(page == 1) this.offset1 += msg.height;
       if(page == 2) this.offset2 += msg.height;
       if(page == 3) this.offset3 += msg.height;
       if(page == 4) this.offset4 += msg.height;
-
-      // add metadata to the message so we know the type and the page
-      msg.currentPage = 1;
-      msg.currentType = "friend"; // "friend"
-
-      this.enableInteraction(msg);
     }
 
     // now the message exists, turn on the buttons
     enableInteraction(msg) {
-      var keep = msg.addChild(this.game.make.sprite(0, 0, 'btn-keep'));
-      var kill = msg.addChild(this.game.make.sprite(40, 0, 'btn-delete'));
+      var keep = msg.addChild(this.game.make.sprite(0, 60, 'btn-keep'));
+      var kill = msg.addChild(this.game.make.sprite(65, 60, 'btn-delete'));
 
       keep.inputEnabled = true;
       keep.events.onInputDown.add(this.acceptMessage, this);
@@ -232,9 +231,21 @@ class GameState extends Phaser.State {
     }
 
     acceptMessage(msg) {
-      if(msg.parent.currentType == "friend") {
+      this.handleMessageClick(msg, "accept");
+    }
+
+    killMessage(msg) {
+      this.handleMessageClick(msg, "delete");
+    }
+
+    handleMessageClick(msg, clicked) {
+      this.left.scale.set(0.9);
+      this.game.time.events.add(Phaser.Timer.SECOND * 0.15, this.resetHand, this);
+
+      if((msg.parent.currentType === "friend" && clicked === "accept") || 
+         (msg.parent.currentType === "journo" && clicked === "delete")) {
         this.offset1 -= msg.parent.height;
-        this.shuffleUp(this.page1.children, msg.parent.height, this.game);
+        this.shuffleUp(this.page1.children, msg, this.game);
         msg.parent.destroy();
       }
       else {
@@ -242,18 +253,13 @@ class GameState extends Phaser.State {
       }
     }
 
-    killMessage() {
-      if(msg.parent.currentType == "journo") {
-        // clone accept code when working
-      }
-    }
-
     /**
      * Move everything up when the message is deleted
      */
-    shuffleUp(items, distance, game) {
+    shuffleUp(items, msg, game) {
       items.forEach(function(item) {
-        game.add.tween(item).to( { y: item.y - distance }, 200, "Linear", true);
+        if(item.y > msg.parent.y) 
+          game.add.tween(item).to( { y: item.y - msg.parent.height }, 200, "Linear", true);
       });
     }
 
