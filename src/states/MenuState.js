@@ -7,6 +7,8 @@ class MenuState extends Phaser.State {
 
       this.bg = this.game.add.sprite(0, 0, "game-background");
 
+      this.makeParticles();
+
       this.menuTitle1 = this.game.add.sprite(267, 62, "menu-title1");
       this.menuTitle2 = this.game.add.sprite(267, 62, "menu-title2");
       this.menuTitle2.alpha = 0;
@@ -22,6 +24,21 @@ class MenuState extends Phaser.State {
       this.animateIn();
 
       this.tick = 0;
+    }
+
+    makeParticles() {
+      var emitter = this.game.add.emitter(this.game.world.centerX, -200, 90);
+
+      emitter.width = this.game.world.width;
+
+      emitter.makeParticles(['floater1', "floater2", "floater3", "floater4"]);
+
+      emitter.minParticleScale = 0.5;
+      emitter.maxParticleScale = 0.9;
+
+      emitter.setYSpeed(10, 100);
+
+      emitter.start(false, 9000, 200, 0);
     }
 
     animateIn() {

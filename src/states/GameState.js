@@ -172,11 +172,17 @@ class GameState extends Phaser.State {
     spawnMessage() {
       this.createMessageBlock();
 
-      this.game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnMessage, this);
+      this.game.time.events.add(Phaser.Timer.SECOND * 10, this.spawnMessage, this);
     }
 
     createMessageBlock() {
-      var msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
+      var msg;
+      var page = this.getRandomInt(1,4);
+      
+      if(page == 1) msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
+      if(page == 2) msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
+      if(page == 3) msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
+      if(page == 4) msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
 
       var keep = msg.addChild(this.game.make.sprite(0, 0, 'btn-keep'));
       var kill = msg.addChild(this.game.make.sprite(40, 0, 'btn-delete'));
@@ -184,7 +190,14 @@ class GameState extends Phaser.State {
       var style = { font: "14px Arial", fill: "#000000", align: "left", wordWrap:true, wordWrapWidth:240 };
       var text = msg.addChild(this.game.add.text(20, 20, this.getNewMessageText(), style));
 
-      this.offset1 += msg.height;
+      if(page == 1) this.offset1 += msg.height;
+      if(page == 2) this.offset2 += msg.height;
+      if(page == 3) this.offset3 += msg.height;
+      if(page == 4) this.offset4 += msg.height;
+    }
+
+    getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     getNewMessageText() {

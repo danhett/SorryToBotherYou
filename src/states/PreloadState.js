@@ -65,6 +65,14 @@ class PreloadState extends Phaser.State {
 
 		this.game.load.image('game-background', 'assets/bg.jpg');
 
+		this.game.load.image('floater1', 'assets/floater1.png');
+		this.game.load.image('floater2', 'assets/floater2.png');
+		this.game.load.image('floater3', 'assets/floater3.png');
+		this.game.load.image('floater4', 'assets/floater4.png');
+		this.game.load.image('floater5', 'assets/floater5.png');
+		this.game.load.image('floater6', 'assets/floater6.png');
+		this.game.load.image('floater7', 'assets/floater7.png');
+
 		this.game.load.image('menu-about', 'assets/menu-about.png');
 		this.game.load.image('menu-start', 'assets/menu-start.png');
 		this.game.load.image('menu-subtitle', 'assets/menu-subtitle.png');
