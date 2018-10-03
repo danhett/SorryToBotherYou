@@ -5,6 +5,8 @@ class MenuState extends Phaser.State {
     create() {
       document.body.style.cursor = 'default';
 
+      this.music = this.game.sound.play("music");
+
       this.bg = this.game.add.sprite(0, 0, "game-background");
 
       this.makeParticles();

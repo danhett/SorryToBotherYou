@@ -100,6 +100,13 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('btn-delete', 'assets/btn-delete.png');
 
 		this.game.load.image('masker', 'assets/mask.png');
+		
+		this.game.load.audio('music', ['assets/audio/music.mp3']);
+		this.game.load.audio('click', ['assets/audio/click.mp3']);
+		this.game.load.audio('ping1', ['assets/audio/ping1.mp3']);
+		this.game.load.audio('ping2', ['assets/audio/ping2.mp3']);
+		this.game.load.audio('ping3', ['assets/audio/ping3.mp3']);
+		this.game.load.audio('ping4', ['assets/audio/ping4.mp3']);
 	}
 
   loadUpdate() {

@@ -28,6 +28,10 @@ class GameState extends Phaser.State {
       this.selectedPage = 1;
       this.totalMessages = 0;
 
+      this.messageTime = 4.5;
+      this.fastestMessageRate = 1.5;
+      this.messageRateIncrease = 0.3;
+
       this.loadData();
 
       // create the phone holder hand (before UI to avoid tangles)
@@ -133,6 +137,8 @@ class GameState extends Phaser.State {
      * Switches to a particular screen when hitting a phone button.
      */
     switchToScreen(state) {
+      this.game.sound.play("click");
+
       // reset all the buttons
       this.button1.alpha = 0;
       this.button2.alpha = 0;
@@ -200,9 +206,23 @@ class GameState extends Phaser.State {
      * Spawns a new message. Recursively calls itself.
      */
     spawnMessage() {
+      this.checkMessageRate();
+
       this.createMessageBlock();
 
-      this.game.time.events.add(Phaser.Timer.SECOND * 5, this.spawnMessage, this);
+      this.game.time.events.add(Phaser.Timer.SECOND * this.messageTime, this.spawnMessage, this);
+    }
+
+    /**
+     * Increases the rate messages appear
+     */
+    checkMessageRate() {
+      if(this.totalMessages % 10 == 0) {
+        if(this.messageTime > this.fastestMessageRate) {
+          this.messageTime -= this.messageRateIncrease;
+          console.log("reducing to " + this.messageTime)
+        }
+      }
     }
 
     // TODO - don't make these vars every time, optimise obviously
@@ -223,24 +243,32 @@ class GameState extends Phaser.State {
       }
       
       if(this.page == 1) {
+        this.game.sound.play("ping1");
+
         this.msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
         
         if(this.selectedPage != 1)
           this.notify1.alpha = 1;
       }
       if(this.page == 2) {
+        this.game.sound.play("ping2");
+
         this.msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
         
         if(this.selectedPage != 2)
           this.notify2.alpha = 1;
       }
       if(this.page == 3) {
+        this.game.sound.play("ping3");
+
         this.msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
         
         if(this.selectedPage != 3)
           this.notify3.alpha = 1;
       }
       if(this.page == 4) {
+        this.game.sound.play("ping4");
+
         this.msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
         
         if(this.selectedPage != 4)
@@ -290,6 +318,8 @@ class GameState extends Phaser.State {
     }
 
     handleMessageClick(msg, clicked) {
+      this.game.sound.play("click");
+
       this.left.scale.set(0.9);
       this.game.time.events.add(Phaser.Timer.SECOND * 0.15, this.resetHand, this);
 
