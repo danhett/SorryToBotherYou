@@ -25,6 +25,7 @@ class GameState extends Phaser.State {
       this.mode;
       this.text;
       this.page;
+      this.selectedPage = 1;
       this.totalMessages = 0;
 
       this.loadData();
@@ -36,6 +37,9 @@ class GameState extends Phaser.State {
 
       // create the content holders for messages to go into
       this.createSliders();
+
+      // create the live notification dots for each message stack
+      this.createNotifications();
 
       // finally add the left hand on top of everything
       this.left = this.game.add.sprite(300, 200, "hand-left");
@@ -113,6 +117,18 @@ class GameState extends Phaser.State {
       this.slider.mask = this.masker;
     }
 
+    createNotifications() {
+      this.notify1 = this.right.addChild(this.game.make.sprite(120, 485, "notification"));
+      this.notify2 = this.right.addChild(this.game.make.sprite(192, 485, "notification"));
+      this.notify3 = this.right.addChild(this.game.make.sprite(264, 485, "notification"));
+      this.notify4 = this.right.addChild(this.game.make.sprite(336, 485, "notification"));
+
+      this.notify1.alpha = 0;
+      this.notify2.alpha = 0;
+      this.notify3.alpha = 0;
+      this.notify4.alpha = 0;
+    }
+
     /**
      * Switches to a particular screen when hitting a phone button.
      */
@@ -128,23 +144,31 @@ class GameState extends Phaser.State {
 
       // do the switch
       if(state.name == "email") {
+        this.selectedPage = 1;
         this.button1.alpha = 1;
         this.doStateTransition(0xc4afbb, this.sliderOriginX);
+        this.notify1.alpha = 0;
       }
 
       if(state.name == "facebook") {
+        this.selectedPage = 2;
         this.button2.alpha = 1;
         this.doStateTransition(0xffac71, this.sliderOriginX - this.pageOffset);
+        this.notify2.alpha = 0;
       }
 
       if(state.name == "twitter") {
+        this.selectedPage = 3;
         this.button3.alpha = 1;
         this.doStateTransition(0xc4d8bb, this.sliderOriginX - (this.pageOffset*2));
+        this.notify3.alpha = 0;
       }
 
       if(state.name == "whatsapp") {
+        this.selectedPage = 4;
         this.button4.alpha = 1;
         this.doStateTransition(0xffacc8, this.sliderOriginX - (this.pageOffset*3));
+        this.notify4.alpha = 0;
       }
     }
 
@@ -198,10 +222,30 @@ class GameState extends Phaser.State {
         this.mode = "journo";
       }
       
-      if(this.page == 1) this.msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
-      if(this.page == 2) this.msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
-      if(this.page == 3) this.msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
-      if(this.page == 4) this.msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
+      if(this.page == 1) {
+        this.msg = this.page1.addChild(this.game.make.sprite(0, this.offset1, 'bubble1'));
+        
+        if(this.selectedPage != 1)
+          this.notify1.alpha = 1;
+      }
+      if(this.page == 2) {
+        this.msg = this.page2.addChild(this.game.make.sprite(0, this.offset2, 'bubble2'));
+        
+        if(this.selectedPage != 2)
+          this.notify2.alpha = 1;
+      }
+      if(this.page == 3) {
+        this.msg = this.page3.addChild(this.game.make.sprite(0, this.offset3, 'bubble3'));
+        
+        if(this.selectedPage != 3)
+          this.notify3.alpha = 1;
+      }
+      if(this.page == 4) {
+        this.msg = this.page4.addChild(this.game.make.sprite(0, this.offset4, 'bubble4'));
+        
+        if(this.selectedPage != 4)
+          this.notify4.alpha = 1;
+      }
 
       this.game.add.tween(this.msg).from( { alpha:0 }, 200, "Linear", true);
 
