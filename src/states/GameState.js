@@ -32,6 +32,8 @@ class GameState extends Phaser.State {
       this.fastestMessageRate = 1.5;
       this.messageRateIncrease = 0.3;
 
+      this.journoChance = 0.2; 
+
       this.loadData();
 
       // create the phone holder hand (before UI to avoid tangles)
@@ -235,7 +237,7 @@ class GameState extends Phaser.State {
       else
         this.page = 1;
 
-      if(Math.random() < 0.5) { // TODO: test this probability, should be low
+      if(Math.random() < this.journoChance) { 
         this.mode = "friend";
       }
       else {
