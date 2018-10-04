@@ -28,11 +28,14 @@ class GameState extends Phaser.State {
       this.selectedPage = 1;
       this.totalMessages = 0;
 
-      this.messageTime = 4.5;
-      this.fastestMessageRate = 1.5;
-      this.messageRateIncrease = 0.3;
+      this.messageTime = 4;
+      this.fastestMessageRate = 1;
+      this.messageRateIncrease = 0.5;
+      this.messageTickPoint = 6;
 
-      this.journoChance = 0.2; 
+      this.journoChance = 0.3; 
+
+      this.totalBlockHeight = 180;
 
       this.loadData();
 
@@ -219,7 +222,7 @@ class GameState extends Phaser.State {
      * Increases the rate messages appear
      */
     checkMessageRate() {
-      if(this.totalMessages % 10 == 0) {
+      if(this.totalMessages % this.messageTickPoint == 0) {
         if(this.messageTime > this.fastestMessageRate) {
           this.messageTime -= this.messageRateIncrease;
           console.log("reducing to " + this.messageTime)
@@ -237,7 +240,7 @@ class GameState extends Phaser.State {
       else
         this.page = 1;
 
-      if(Math.random() < this.journoChance) { 
+      if(Math.random() > this.journoChance) { 
         this.mode = "friend";
       }
       else {
@@ -293,16 +296,19 @@ class GameState extends Phaser.State {
         this.msg.currentType = this.mode;
       }
 
-      if(this.page == 1) this.offset1 += this.msg.height;
-      if(this.page == 2) this.offset2 += this.msg.height;
-      if(this.page == 3) this.offset3 += this.msg.height;
-      if(this.page == 4) this.offset4 += this.msg.height;
+      if(this.page == 1) this.offset1 += this.totalBlockHeight;
+      if(this.page == 2) this.offset2 += this.totalBlockHeight;
+      if(this.page == 3) this.offset3 += this.totalBlockHeight;
+      if(this.page == 4) this.offset4 += this.totalBlockHeight;
     }
 
     // now the message exists, turn on the buttons
     enableInteraction(msg) {
-      var keep = msg.addChild(this.game.make.sprite(0, 60, 'btn-keep'));
-      var kill = msg.addChild(this.game.make.sprite(65, 60, 'btn-delete'));
+      var keep = msg.addChild(this.game.make.sprite(190, 100, 'btn-keep'));
+      var kill = msg.addChild(this.game.make.sprite(240, 100, 'btn-delete'));
+
+      keep.scale.x = keep.scale.y = 0.8;
+      kill.scale.x = kill.scale.y = 0.8;
 
       keep.inputEnabled = true;
       keep.events.onInputDown.add(this.acceptMessage, this);
@@ -329,20 +335,20 @@ class GameState extends Phaser.State {
          (msg.parent.currentType === "journo" && clicked === "delete")) {
         
         if(msg.parent.currentPage == 1) {
-          this.offset1 -= msg.parent.height;
-          this.shuffleUp(this.page1.children, msg, this.game);
+          this.offset1 -= this.totalBlockHeight;
+          this.shuffleUp(this.page1.children, msg, this.game, this.totalBlockHeight);
         }
         if(msg.parent.currentPage == 2) {
-          this.offset2 -= msg.parent.height;
-          this.shuffleUp(this.page2.children, msg, this.game);
+          this.offset2 -= this.totalBlockHeight;
+          this.shuffleUp(this.page2.children, msg, this.game, this.totalBlockHeight);
         }
         if(msg.parent.currentPage == 3) {
-          this.offset3 -= msg.parent.height;
-          this.shuffleUp(this.page3.children, msg, this.game);
+          this.offset3 -= this.totalBlockHeight;
+          this.shuffleUp(this.page3.children, msg, this.game, this.totalBlockHeight);
         }
         if(msg.parent.currentPage == 4) {
-          this.offset4 -= msg.parent.height;
-          this.shuffleUp(this.page4.children, msg, this.game);
+          this.offset4 -= this.totalBlockHeight;
+          this.shuffleUp(this.page4.children, msg, this.game, this.totalBlockHeight);
         }
 
         msg.parent.destroy();
@@ -355,10 +361,10 @@ class GameState extends Phaser.State {
     /**
      * Move everything up when the message is deleted
      */
-    shuffleUp(items, msg, game) {
+    shuffleUp(items, msg, game, height) {
       items.forEach(function(item) {
         if(item.y > msg.parent.y) 
-          game.add.tween(item).to( { y: item.y - msg.parent.height }, 200, "Linear", true);
+          game.add.tween(item).to( { y: item.y - height }, 200, "Linear", true);
       });
     }
 

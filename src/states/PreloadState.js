@@ -107,6 +107,9 @@ class PreloadState extends Phaser.State {
 		this.game.load.audio('ping2', ['assets/audio/ping2.mp3']);
 		this.game.load.audio('ping3', ['assets/audio/ping3.mp3']);
 		this.game.load.audio('ping4', ['assets/audio/ping4.mp3']);
+
+		this.game.load.image('about-screen', 'assets/about.png');
+
 	}
 
   loadUpdate() {

@@ -18,10 +18,13 @@ class MenuState extends Phaser.State {
       this.menuSubtitle = this.game.add.sprite(221, 435, "menu-subtitle");
       this.menuStart = this.game.add.sprite(477, 612, "menu-start");
       this.menuAbout = this.game.add.sprite(1000, 675, "menu-about");
-      this.menuAbout.alpha = 0.3;
+      this.menuAbout.alpha = 0.6;
 
       this.menuStart.inputEnabled = true;
       this.menuStart.events.onInputDown.add(this.startGame, this);
+
+      this.menuAbout.inputEnabled = true;
+      this.menuAbout.events.onInputDown.add(this.showAboutScreen, this);
 
       this.animateIn();
 
@@ -85,6 +88,10 @@ class MenuState extends Phaser.State {
 
     startGame() {
       this.animateOut();
+    }
+
+    showAboutScreen() {
+      this.state.start('AboutState');
     }
 
     doTransition() {
