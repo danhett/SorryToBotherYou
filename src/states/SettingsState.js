@@ -23,10 +23,10 @@ class SettingsState extends Phaser.State {
 		this.sfxOn = this.add.sprite(400, 160, "toggleOn");
 
 		this.musicOn.inputEnabled = true;
-    this.musicOn.events.onInputDown.add(this.toggleMusic, this);
+    	this.musicOn.events.onInputDown.add(this.toggleMusic, this);
 
 		this.sfxOn.inputEnabled = true;
-    this.sfxOn.events.onInputDown.add(this.toggleSfx, this);
+    	this.sfxOn.events.onInputDown.add(this.toggleSfx, this);
 
 		// get default saved button state
 		if(Settings.loadSetting("music") == "false") {

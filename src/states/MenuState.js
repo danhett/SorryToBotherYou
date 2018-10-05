@@ -5,6 +5,7 @@ class MenuState extends Phaser.State {
     create() {
       document.body.style.cursor = 'default';
 
+      this.game.sound.stopAll();
       this.music = this.game.sound.play("music");
 
       this.bg = this.game.add.sprite(0, 0, "game-background");
@@ -55,6 +56,8 @@ class MenuState extends Phaser.State {
     }
 
     animateOut() {
+      this.game.sound.play("click");
+
       this.game.add.tween(this.menuTitle1).to( { alpha: 0 }, 500, "Linear", true);
       this.game.add.tween(this.menuTitle2).to( { alpha: 0 }, 500, "Linear", true);
       this.game.add.tween(this.menuSubtitle).to( { alpha: 0 }, 500, "Linear", true, 100);
@@ -91,6 +94,7 @@ class MenuState extends Phaser.State {
     }
 
     showAboutScreen() {
+      this.game.sound.play("click");
       this.state.start('AboutState');
     }
 

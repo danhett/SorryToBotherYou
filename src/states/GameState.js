@@ -30,12 +30,12 @@ class GameState extends Phaser.State {
 
       this.messageTime = 4;
       this.fastestMessageRate = 1;
-      this.messageRateIncrease = 0.5;
-      this.messageTickPoint = 6;
+      this.messageRateIncrease = 0.4;
+      this.messageTickPoint = 8;
 
       this.journoChance = 0.3; 
 
-      this.totalBlockHeight = 180;
+      this.totalBlockHeight = 150;
 
       this.loadData();
 
@@ -296,16 +296,27 @@ class GameState extends Phaser.State {
         this.msg.currentType = this.mode;
       }
 
-      if(this.page == 1) this.offset1 += this.totalBlockHeight;
-      if(this.page == 2) this.offset2 += this.totalBlockHeight;
-      if(this.page == 3) this.offset3 += this.totalBlockHeight;
-      if(this.page == 4) this.offset4 += this.totalBlockHeight;
+      if(this.page == 1) {
+        this.offset1 += this.totalBlockHeight;
+
+        if(this.offset1 > (this.totalBlockHeight * 3))
+          this.triggerGameOver();
+      }
+      if(this.page == 2) {
+        this.offset2 += this.totalBlockHeight;
+      }
+      if(this.page == 3) {
+        this.offset3 += this.totalBlockHeight;
+      }
+      if(this.page == 4) {
+        this.offset4 += this.totalBlockHeight;
+      }
     }
 
     // now the message exists, turn on the buttons
     enableInteraction(msg) {
-      var keep = msg.addChild(this.game.make.sprite(190, 100, 'btn-keep'));
-      var kill = msg.addChild(this.game.make.sprite(240, 100, 'btn-delete'));
+      var keep = msg.addChild(this.game.make.sprite(190, 98, 'btn-keep'));
+      var kill = msg.addChild(this.game.make.sprite(240, 98, 'btn-delete'));
 
       keep.scale.x = keep.scale.y = 0.8;
       kill.scale.x = kill.scale.y = 0.8;
@@ -369,7 +380,7 @@ class GameState extends Phaser.State {
     }
 
     triggerGameOver() {
-      console.log("game over");
+      this.state.start('GameOverState');
     }
 
     getRandomInt(min, max) {

@@ -47,11 +47,11 @@ class PreloadState extends Phaser.State {
 	drawPreloader() {
 		/*
 		this.loaderBase = this.game.add.graphics(100,185);
-    this.loaderBase.beginFill(0x5b2033);
+    	this.loaderBase.beginFill(0x5b2033);
 		this.loaderBase.drawRect(0, 0, 600, 30);
 
 		this.loaderFill = this.game.add.graphics(110,195);
-    this.loaderFill.beginFill(0xFFFFFF);
+    	this.loaderFill.beginFill(0xFFFFFF);
 		this.loaderFill.drawRect(0, 0, 580, 10);
 		this.loaderFill.scale.x = 0;
 		*/
@@ -100,6 +100,7 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('btn-delete', 'assets/btn-delete.png');
 
 		this.game.load.image('masker', 'assets/mask.png');
+		this.game.load.image('hitzone', 'assets/hitzone.png');
 		
 		this.game.load.audio('music', ['assets/audio/music.mp3']);
 		this.game.load.audio('click', ['assets/audio/click.mp3']);
@@ -109,18 +110,17 @@ class PreloadState extends Phaser.State {
 		this.game.load.audio('ping4', ['assets/audio/ping4.mp3']);
 
 		this.game.load.image('about-screen', 'assets/about.png');
+		this.game.load.image('gameover-screen', 'assets/gameover.png');
 
 	}
 
-  loadUpdate() {
+  	loadUpdate() {
 		//this.loaderFill.scale.x = this.game.load.progress / 100;
-  }
+  	}
 
 	// Loading complete! Go to the menu.
-  create() {
-		console.log("loading complete");
-
-    this.state.start('MenuState');
+  	create() {
+    	this.state.start('MenuState');
 	}
 }
 
