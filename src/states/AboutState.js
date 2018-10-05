@@ -6,7 +6,7 @@ class AboutState extends Phaser.State {
       this.bg = this.game.add.sprite(0, 0, "about-screen");
       
       this.hitzone = this.game.add.sprite(930, 600, "hitzone");
-      this.hitzone.alpha = 0.2;
+      this.hitzone.alpha = 0;
 
       this.hitzone.inputEnabled = true;
       this.hitzone.events.onInputDown.add(this.goBack, this);
