@@ -39,8 +39,8 @@ class MenuState extends Phaser.State {
 
       emitter.makeParticles(['floater1', "floater2", "floater3", "floater4"]);
 
-      emitter.minParticleScale = 0.5;
-      emitter.maxParticleScale = 0.9;
+      emitter.minParticleScale = 0.9;
+      emitter.maxParticleScale = 1.5;
 
       emitter.setYSpeed(10, 100);
 
