@@ -45,16 +45,10 @@ class PreloadState extends Phaser.State {
 	 * Draws the preload bar
 	 */
 	drawPreloader() {
-		/*
-		this.loaderBase = this.game.add.graphics(100,185);
-    	this.loaderBase.beginFill(0x5b2033);
-		this.loaderBase.drawRect(0, 0, 600, 30);
-
-		this.loaderFill = this.game.add.graphics(110,195);
+		this.loaderFill = this.game.add.graphics(382,356);
     	this.loaderFill.beginFill(0xFFFFFF);
-		this.loaderFill.drawRect(0, 0, 580, 10);
+		this.loaderFill.drawRect(0, 0, 560, 10);
 		this.loaderFill.scale.x = 0;
-		*/
 	}
 
 	/**
@@ -69,9 +63,6 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('floater2', 'assets/floater2.png');
 		this.game.load.image('floater3', 'assets/floater3.png');
 		this.game.load.image('floater4', 'assets/floater4.png');
-		this.game.load.image('floater5', 'assets/floater5.png');
-		this.game.load.image('floater6', 'assets/floater6.png');
-		this.game.load.image('floater7', 'assets/floater7.png');
 
 		this.game.load.image('menu-about', 'assets/menu-about.png');
 		this.game.load.image('menu-start', 'assets/menu-start.png');
@@ -103,6 +94,7 @@ class PreloadState extends Phaser.State {
 		this.game.load.image('hitzone', 'assets/hitzone.png');
 		
 		this.game.load.audio('music', ['assets/audio/music.mp3']);
+		this.game.load.audio('intromusic', ['assets/audio/intro.mp3']);
 		this.game.load.audio('click', ['assets/audio/click.mp3']);
 		this.game.load.audio('ping1', ['assets/audio/ping1.mp3']);
 		this.game.load.audio('ping2', ['assets/audio/ping2.mp3']);
@@ -115,7 +107,7 @@ class PreloadState extends Phaser.State {
 	}
 
   	loadUpdate() {
-		//this.loaderFill.scale.x = this.game.load.progress / 100;
+		this.loaderFill.scale.x = this.game.load.progress / 100;
   	}
 
 	// Loading complete! Go to the menu.
