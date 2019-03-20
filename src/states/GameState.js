@@ -30,10 +30,10 @@ class GameState extends Phaser.State {
 
       this.messageTime = 4;
       this.fastestMessageRate = 1;
-      this.messageRateIncrease = 0.4;
-      this.messageTickPoint = 8;
+      this.messageRateIncrease = 0.3;
+      this.messageTickPoint = 10;
 
-      this.journoChance = 0.3; 
+      this.journoChance = 0.5; 
 
       this.totalBlockHeight = 150;
 
